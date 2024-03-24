@@ -21,7 +21,7 @@ system_message = SystemMessage(content=system_template)
 human_message = HumanMessagePromptTemplate.from_template("{history} {input}")
 chat_prompt = ChatPromptTemplate(messages=[system_message, human_message])
 
-token, task_json = getTokenAndTask("blogger")
+token, task_json = getTokenAndTask("blogger", None, None)
 if task_json != None:
     if task_json["code"] == 0:
         parts = task_json["blog"]

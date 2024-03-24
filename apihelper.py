@@ -12,10 +12,9 @@ def parseResponse(response):
         print("Failed to get response: ", response.status_code())
     return None
 
-def postRequest(address, json_data):
-    json_string = json.dumps(json_data)
-    print("Making POST request to: ", address, " with data: ", json_string)
-    response = requests.post(address, data=json_string)
+def postRequest(address, json_data, raw_data):
+    print("Making POST request to: ", address, " with json: ", json_data, " and raw data: ", raw_data)
+    response = requests.post(address, json=json_data, data=raw_data)
     return parseResponse(response)
 
 def getRequest(address):
@@ -26,7 +25,7 @@ def getRequest(address):
 def getToken(test_name):
     load_dotenv()
     token_json_request = {"apikey" : os.getenv("AIDEVS_TOKEN")}
-    json_response = postRequest("https://tasks.aidevs.pl/token/"+test_name, token_json_request)
+    json_response = postRequest("https://tasks.aidevs.pl/token/"+test_name, json_data = token_json_request, raw_data = None)
     if json_response != None:
         if json_response["code"] == 0 and json_response["msg"] == "OK":
             return json_response["token"]
@@ -38,14 +37,23 @@ def getTask(token):
         return json_response
     return None
 
-def getTokenAndTask(test_name):
+def postTask(token, json_data, raw_data):
+    if token != "":
+        json_response = postRequest("https://tasks.aidevs.pl/task/"+token, json_data, raw_data)
+        return json_response
+    return None
+
+def getTokenAndTask(test_name, json_data, raw_data):
     token = getToken(test_name)
-    task = getTask(token)
+    if ((json_data == None) and (raw_data == None)):
+        task = getTask(token)
+    else:
+        task = postTask(token, json_data, raw_data)
     return token, task
 
 def sendAnswer(token, answer):
     json_answer = {"answer" : answer}
-    json_response = postRequest("https://tasks.aidevs.pl/answer/"+token, json_answer)
+    json_response = postRequest("https://tasks.aidevs.pl/answer/"+token, json_data = json_answer, raw_data = None)
     if json_response != None:
         if json_response["code"] == 0 and json_response["msg"] == "OK" and json_response["note"] == "CORRECT":
             return True

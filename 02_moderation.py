@@ -3,7 +3,7 @@ from apihelper import sendAnswer
 
 from openai import OpenAI
 
-token, task_json = getTokenAndTask("moderation")
+token, task_json = getTokenAndTask("moderation", None, None)
 if task_json != None:
     if task_json["code"] == 0:
         client = OpenAI()

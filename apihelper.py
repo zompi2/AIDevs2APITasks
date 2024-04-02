@@ -9,7 +9,7 @@ def parseResponse(response):
         print("Response: ", response.json())
         return response.json()
     else:
-        print("Failed to get response: ", response.status_code())
+        print("Failed to get response: ", response.content)
     return None
 
 def postRequest(address, json_data, raw_data):

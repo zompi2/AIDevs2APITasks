@@ -1,12 +1,9 @@
 from apihelper import sendAnswer
 from apihelper import getTokenAndTask
 
-from langchain.schema import SystemMessage
-from langchain.schema import HumanMessage
 from langchain.prompts.chat import ChatPromptTemplate
 from langchain.chat_models.openai import ChatOpenAI
 
-import requests
 import json
 
 celect_tool_schema =  {

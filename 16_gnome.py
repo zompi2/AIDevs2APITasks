@@ -3,9 +3,6 @@ from apihelper import getTokenAndTask
 
 from openai import OpenAI
 
-import requests
-import json
-
 token, task_json = getTokenAndTask("gnome", None, None)
 if task_json != None:
     url = task_json["url"]
